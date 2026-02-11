@@ -8,6 +8,10 @@ export interface Tx {
     txType: TxType;
     channel?: TxChannelType | null;
     customerId: string;
+    fullName?: string | null;
+    birthDate?: string | null;
+    email?: string | null;
+    accountOpeningDate?: string | null;
     accountId?: string | null;
     txDateTime?: number;
     data: Record<string, unknown>;
