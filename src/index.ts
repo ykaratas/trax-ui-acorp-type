@@ -1,4 +1,13 @@
-export const TX_TYPES = ['DEPOSIT', 'WITHDRAWAL', 'TRANSFER', 'UNSET'] as const;
+export const TX_TYPES = [
+    'DEPOSIT',
+    'WITHDRAWAL',
+    'TRANSFER',
+    'UNSET',
+    'CRYPTO_DEPOSIT',
+    'CRYPTO_WITHDRAWAL',
+    'CRYPTO_TRANSFER',
+    'CRYPTO_SWAP',
+] as const;
 export type TxType = (typeof TX_TYPES)[number];
 
 export const TX_CHANNEL_TYPES = [
@@ -14,6 +23,10 @@ export const TX_CHANNEL_TYPES = [
     'CASH_WITHDRAWAL',
     'INTERNAL_TRANSFER',
     'REFUND',
+    'CRYPTO_EXCHANGE',
+    'ON_CHAIN',
+    'OFF_CHAIN',
+    'CUSTODIAL_WALLET',
 ] as const;
 export type TxChannelType = (typeof TX_CHANNEL_TYPES)[number];
 
@@ -22,12 +35,24 @@ export interface Tx {
     clientSystemId: string;
     txType: TxType;
     channel?: TxChannelType | null;
-    customerId: string;
-    fullName?: string | null;
-    birthDate?: string | null;
-    email?: string | null;
-    accountOpeningDate?: string | null;
-    accountId?: string | null;
+    originatorCustomerId: string;
+    originatorFullName?: string | null;
+    originatorBirthDate?: string | null;
+    originatorEmail?: string | null;
+    originatorAccountOpeningDate?: string | null;
+    beneficiaryCustomerId?: string | null;
+    beneficiaryFullName?: string | null;
+    beneficiaryBirthDate?: string | null;
+    beneficiaryEmail?: string | null;
+    beneficiaryAccountOpeningDate?: string | null;
+    platform?: string | null;
+    assetSymbol?: string | null;
+    network?: string | null;
+    fromAddress?: string | null;
+    toAddress?: string | null;
+    txHash?: string | null;
+    originatorAccountId?: string | null;
+    beneficiaryAccountId?: string | null;
     txDateTime?: number;
     data: Record<string, unknown>;
 }

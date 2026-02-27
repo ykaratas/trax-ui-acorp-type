@@ -1,18 +1,30 @@
-export declare const TX_TYPES: readonly ["DEPOSIT", "WITHDRAWAL", "TRANSFER", "UNSET"];
+export declare const TX_TYPES: readonly ["DEPOSIT", "WITHDRAWAL", "TRANSFER", "UNSET", "CRYPTO_DEPOSIT", "CRYPTO_WITHDRAWAL", "CRYPTO_TRANSFER", "CRYPTO_SWAP"];
 export type TxType = (typeof TX_TYPES)[number];
-export declare const TX_CHANNEL_TYPES: readonly ["CARD_POS", "CARD_ECOM", "CARD_ATM", "BANK_TRANSFER", "INTERNATIONAL_WIRE", "INSTANT_PAYMENT", "E_WALLET", "P2P_TRANSFER", "CASH_DEPOSIT", "CASH_WITHDRAWAL", "INTERNAL_TRANSFER", "REFUND"];
+export declare const TX_CHANNEL_TYPES: readonly ["CARD_POS", "CARD_ECOM", "CARD_ATM", "BANK_TRANSFER", "INTERNATIONAL_WIRE", "INSTANT_PAYMENT", "E_WALLET", "P2P_TRANSFER", "CASH_DEPOSIT", "CASH_WITHDRAWAL", "INTERNAL_TRANSFER", "REFUND", "CRYPTO_EXCHANGE", "ON_CHAIN", "OFF_CHAIN", "CUSTODIAL_WALLET"];
 export type TxChannelType = (typeof TX_CHANNEL_TYPES)[number];
 export interface Tx {
     id?: string | null;
     clientSystemId: string;
     txType: TxType;
     channel?: TxChannelType | null;
-    customerId: string;
-    fullName?: string | null;
-    birthDate?: string | null;
-    email?: string | null;
-    accountOpeningDate?: string | null;
-    accountId?: string | null;
+    originatorCustomerId: string;
+    originatorFullName?: string | null;
+    originatorBirthDate?: string | null;
+    originatorEmail?: string | null;
+    originatorAccountOpeningDate?: string | null;
+    beneficiaryCustomerId?: string | null;
+    beneficiaryFullName?: string | null;
+    beneficiaryBirthDate?: string | null;
+    beneficiaryEmail?: string | null;
+    beneficiaryAccountOpeningDate?: string | null;
+    platform?: string | null;
+    assetSymbol?: string | null;
+    network?: string | null;
+    fromAddress?: string | null;
+    toAddress?: string | null;
+    txHash?: string | null;
+    originatorAccountId?: string | null;
+    beneficiaryAccountId?: string | null;
     txDateTime?: number;
     data: Record<string, unknown>;
 }
