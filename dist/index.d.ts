@@ -1,7 +1,9 @@
-export declare const TX_TYPES: readonly ["DEPOSIT", "WITHDRAWAL", "TRANSFER", "UNSET", "CRYPTO_DEPOSIT", "CRYPTO_WITHDRAWAL", "CRYPTO_TRANSFER", "CRYPTO_SWAP"];
+export declare const TX_TYPES: readonly ["CRYPTO_DEPOSIT", "CRYPTO_WITHDRAWAL", "FIAT_DEPOSIT", "FIAT_WITHDRAWAL", "INTERNAL_TRANSFER", "SPOT_BUY", "SPOT_SELL", "CONVERSION"];
 export type TxType = (typeof TX_TYPES)[number];
-export declare const TX_CHANNEL_TYPES: readonly ["CARD_POS", "CARD_ECOM", "CARD_ATM", "BANK_TRANSFER", "INTERNATIONAL_WIRE", "INSTANT_PAYMENT", "E_WALLET", "P2P_TRANSFER", "CASH_DEPOSIT", "CASH_WITHDRAWAL", "INTERNAL_TRANSFER", "REFUND", "CRYPTO_EXCHANGE", "ON_CHAIN", "OFF_CHAIN", "CUSTODIAL_WALLET"];
+export declare const TX_CHANNEL_TYPES: readonly ["CARD_POS", "CARD_ECOM", "CARD_ATM", "BANK_TRANSFER", "INSTANT_PAYMENT", "P2P_TRANSFER", "FAST", "EFT", "HAVALE", "KART", "SWIFT"];
 export type TxChannelType = (typeof TX_CHANNEL_TYPES)[number];
+export declare const BENEFICIARY_TYPES: readonly ["PLATFORM_CUSTOMER", "EXTERNAL_WALLET", "EXTERNAL_BANK_COUNTERPARTY", "UNKNOWN_COUNTERPARTY"];
+export type BeneficiaryType = (typeof BENEFICIARY_TYPES)[number];
 export interface Tx {
     id?: string | null;
     clientSystemId: string;
@@ -25,6 +27,45 @@ export interface Tx {
     txHash?: string | null;
     originatorAccountId?: string | null;
     beneficiaryAccountId?: string | null;
+    beneficiaryType?: BeneficiaryType | null;
     txDateTime?: number;
-    data: Record<string, unknown>;
+    amount?: number | null;
+    currency?: string | null;
+    status?: string | null;
+    originCountry?: string | null;
+    destinationCountry?: string | null;
+    ipAddress?: string | null;
+    deviceId?: string | null;
+    riskScore?: number | null;
+    postedAt?: number | null;
+    settledAt?: number | null;
+    ingestedAt?: number | null;
+    transactionAsset?: string | null;
+    amountUsd?: number | null;
+    amountTry?: number | null;
+    assetAmount?: number | null;
+    fiatCurrency?: string | null;
+    fiatMethod?: TxChannelType | null;
+    externalWalletAddress?: string | null;
+    tradingPair?: string | null;
+    price?: number | null;
+    baseAmount?: number | null;
+    quoteAmount?: number | null;
+    remittanceDescription?: string | null;
+    beneficiaryNameSource?: string | null;
 }
+export type TxDetailSection = 'identifiers' | 'originator' | 'beneficiary' | 'transaction' | 'timing' | 'risk';
+export type TxDetailFormat = 'text' | 'id' | 'number' | 'money' | 'date' | 'datetime' | 'datetimeEpoch' | 'enum';
+export interface TxDetailDescriptor {
+    field: keyof Tx;
+    section: TxDetailSection;
+    label: string;
+    translationKey?: string;
+    sectionLabel: string;
+    sectionTranslationKey?: string;
+    format?: TxDetailFormat;
+    enumDomain?: 'txType' | 'txChannelType';
+    unitField?: keyof Tx;
+    precision?: number;
+}
+export declare const TX_DETAIL_FIELDS: TxDetailDescriptor[];
